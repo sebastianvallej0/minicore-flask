@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>Ventas</title></head>
+<body>
+  <nav>
+    <a href="/vendedores/">Vendedores</a> |
+    <a href="/ventas/">Ventas</a> |
+    <a href="/comisiones/">Comisiones</a>
+  </nav>
+  <h2>Ventas</h2>
+
+  <form method="post" action="/ventas/crear">
+    <select name="vendedor_id">
+      {% for v in vendedores %}<option value="{{v.id}}">{{v.nombre}}</option>{% endfor %}
+    </select>
+    <input type="date" name="fecha">
+    <input name="monto" type="number" step="0.01" placeholder="Monto" required>
+    <input name="categoria" placeholder="Categoria" required>
+    <button>Registrar</button>
+  </form>
+
+  <table border="1" cellpadding="6" style="margin-top:12px;">
+    <tr><th>ID</th><th>Vendedor</th><th>Fecha</th><th>Monto</th><th>Categoría</th></tr>
+    {% for x in ventas %}
+    <tr>
+      <td>{{x.id}}</td><td>{{x.vendedor.nombre}}</td>
+      <td>{{x.fecha}}</td><td>{{x.monto}}</td><td>{{x.categoria}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

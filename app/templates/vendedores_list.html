@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Vendedores</title>
+</head>
+<body>
+    <h2>Lista de Vendedores</h2>
+
+    <form method="post" action="/vendedores/crear">
+        <input name="nombre" placeholder="Nombre" required>
+        <input name="email" placeholder="Email" required>
+        <button>Crear</button>
+    </form>
+
+    <ul>
+    {% for v in vendedores %}
+        <li>{{ v.id }} - {{ v.nombre }} ({{ v.email }})</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
