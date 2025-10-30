@@ -1,0 +1,14 @@
+{% extends "_base.html" %}
+{% block title %}Inicio · MiniCore{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column justify-content-center align-items-center" style="min-height:55vh">
+  <h1 class="mb-3">MiniCore Flask MVC ✅</h1>
+  <p class="lead text-muted text-center">Aplicación base con Flask, SQLAlchemy y Render</p>
+  <div class="mt-3 d-flex gap-2">
+    <a href="/vendedores/" class="btn btn-outline-primary">Vendedores</a>
+    <a href="/ventas/" class="btn btn-primary">Ventas</a>
+    <a href="/comisiones/" class="btn btn-outline-secondary">Comisiones</a>
+  </div>
+</div>
+{% endblock %}

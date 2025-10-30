@@ -1,32 +1,55 @@
-<!doctype html>
-<html lang="es">
-<head><meta charset="utf-8"><title>Ventas</title></head>
-<body>
-  <nav>
-    <a href="/vendedores/">Vendedores</a> |
-    <a href="/ventas/">Ventas</a> |
-    <a href="/comisiones/">Comisiones</a>
-  </nav>
-  <h2>Ventas</h2>
+{% extends "_base.html" %}
+{% block title %}Ventas · MiniCore{% endblock %}
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="mb-4 text-center">🧾 Registro de Ventas</h2>
 
-  <form method="post" action="/ventas/crear">
-    <select name="vendedor_id">
-      {% for v in vendedores %}<option value="{{v.id}}">{{v.nombre}}</option>{% endfor %}
-    </select>
-    <input type="date" name="fecha">
-    <input name="monto" type="number" step="0.01" placeholder="Monto" required>
-    <input name="categoria" placeholder="Categoria" required>
-    <button>Registrar</button>
-  </form>
+    <form method="post" action="/ventas/crear" class="row g-3 mb-4">
+      <div class="col-md-3">
+        <label class="form-label">Vendedor</label>
+        <select name="vendedor_id" class="form-select">
+          {% for v in vendedores %}<option value="{{ v.id }}">{{ v.nombre }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Fecha</label>
+        <input type="date" name="fecha" class="form-control">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Monto</label>
+        <div class="input-group">
+          <span class="input-group-text">$</span>
+          <input name="monto" type="number" step="0.01" class="form-control" placeholder="0.00" required>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Categoría</label>
+        <input name="categoria" class="form-control" placeholder="Ej. instrumentos" required>
+      </div>
+      <div class="col-md-1 d-flex align-items-end">
+        <button class="btn btn-primary w-100">Guardar</button>
+      </div>
+    </form>
 
-  <table border="1" cellpadding="6" style="margin-top:12px;">
-    <tr><th>ID</th><th>Vendedor</th><th>Fecha</th><th>Monto</th><th>Categoría</th></tr>
-    {% for x in ventas %}
-    <tr>
-      <td>{{x.id}}</td><td>{{x.vendedor.nombre}}</td>
-      <td>{{x.fecha}}</td><td>{{x.monto}}</td><td>{{x.categoria}}</td>
-    </tr>
-    {% endfor %}
-  </table>
-</body>
-</html>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover align-middle text-center">
+        <thead class="table-dark">
+          <tr><th>ID</th><th>Vendedor</th><th>Fecha</th><th>Monto</th><th>Categoría</th></tr>
+        </thead>
+        <tbody>
+          {% for x in ventas %}
+            <tr>
+              <td>{{ x.id }}</td>
+              <td>{{ x.vendedor.nombre }}</td>
+              <td>{{ x.fecha }}</td>
+              <td>$ {{ x.monto }}</td>
+              <td><span class="badge text-bg-secondary">{{ x.categoria }}</span></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

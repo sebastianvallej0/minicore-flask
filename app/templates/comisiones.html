@@ -1,34 +1,67 @@
-<!doctype html>
-<html lang="es">
-<head><meta charset="utf-8"><title>Comisiones</title></head>
-<body>
-  <nav>
-    <a href="/vendedores/">Vendedores</a> |
-    <a href="/ventas/">Ventas</a> |
-    <a href="/comisiones/">Comisiones</a>
-  </nav>
+{% extends "_base.html" %}
+{% block title %}Comisiones · MiniCore{% endblock %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Calcular comisiones</h5>
+        <form method="get" action="/comisiones/">
+          <div class="mb-3">
+            <label class="form-label">ID del Vendedor</label>
+            <input type="number" name="vendedor_id" class="form-control" placeholder="Ej. 1" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Desde</label>
+            <input type="date" name="desde" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Hasta</label>
+            <input type="date" name="hasta" class="form-control">
+          </div>
+          <button class="btn btn-primary w-100">Calcular</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
-  <h2>Comisiones</h2>
-  <form method="get" action="/comisiones/">
-    <input type="number" name="vendedor_id" placeholder="ID vendedor" required>
-    <input type="date" name="desde">
-    <input type="date" name="hasta">
-    <button>Calcular</button>
-  </form>
+  <div class="col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Resultado</h5>
+        {% if data %}
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <span class="badge text-bg-success px-3 py-2">TOTAL</span>
+            <h3 class="m-0">$ {{ "%.2f"|format(data.total) }}</h3>
+          </div>
 
-  {% if data %}
-  <h3>Total: {{ "%.2f"|format(data.total) }}</h3>
-  <table border="1" cellpadding="6">
-    <tr><th>Categoría</th><th>Monto</th><th>%</th><th>Comisión</th></tr>
-    {% for d in data.detalle %}
-    <tr>
-      <td>{{ d.categoria }}</td>
-      <td>{{ "%.2f"|format(d.monto) }}</td>
-      <td>{{ "%.2f"|format(d.porcentaje) }}</td>
-      <td>{{ "%.2f"|format(d.comision) }}</td>
-    </tr>
-    {% endfor %}
-  </table>
-  {% endif %}
-</body>
-</html>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th>Categoría</th>
+                  <th class="text-end">Monto</th>
+                  <th class="text-end">% Comisión</th>
+                  <th class="text-end">Comisión</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for d in data.detalle %}
+                <tr>
+                  <td>{{ d.categoria }}</td>
+                  <td class="text-end">$ {{ "%.2f"|format(d.monto) }}</td>
+                  <td class="text-end">{{ "%.2f"|format(d.porcentaje) }}%</td>
+                  <td class="text-end">$ {{ "%.2f"|format(d.comision) }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <div class="alert alert-info m-0">Ingresa un vendedor y rango de fechas para ver el detalle.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
